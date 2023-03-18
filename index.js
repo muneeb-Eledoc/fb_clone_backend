@@ -95,3 +95,5 @@ app.post('/api/subscribe', async (req, res) => {
 app.listen(8800, () => {
   console.log("Server listening")
 })
+
+module.exports = app
