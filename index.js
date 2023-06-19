@@ -66,17 +66,21 @@ app.use("/api/status", statusRouter);
 app.post('/api/subscribe', async (req, res) => {
   const options = {
     vapidDetails: {
-      subject: 'mailto:',
-      publicKey: '',
-      privateKey: '',
+      subject: 'mailto:muneebjs.css@gmail.com',
+      publicKey: 'BHD-irDuWfPkFu3FXdKXBJT-k7BUq_0mtgNt1Xg6UCfZfSxLHiudprK2YjkxVZb0KHiN-BZ6BCbJPc0lo1-2Go0',
+      privateKey: '-iR9r-iOXH1xUu-prtdgw3gcHHNgcb2OJYtyEI3b4ls',
+
     },
   };
   try {
 
-    const promises = req.body.subscription.map(async sub => {
-      const payload = JSON.stringify(req.body.message);
-      const resluts = await webPush.sendNotification(sub, payload, options);
-      console.log('\n\nresults  \n', resluts)
+    const promises = req.body.subscription?.map(async sub => {
+      try {
+        const payload = JSON.stringify(req.body.message);
+        const resluts = await webPush.sendNotification(sub, payload, options);
+      } catch (error) {
+        console.log(error);
+      }
 
     });
 
@@ -85,6 +89,7 @@ app.post('/api/subscribe', async (req, res) => {
     res.sendStatus(200)
 
   } catch (error) {
+    console.log(error)
     if(error.statusCode === 410){
       console.log('sub expired', error)
     }
